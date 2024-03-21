@@ -1,18 +1,23 @@
-import {  useRef } from "react";
+import {  useEffect, useRef } from "react";
 import { View, Text, FlatList, Animated, StyleSheet, Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { colors } from "../colors";
+import { AppDispatch, RootState } from "../../redux/store";
+import { colors } from "../../colors";
 import { FontAwesomeIcon, Props } from "@fortawesome/react-native-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { openMenu } from "../redux/configureSlice";
+import { openMenu, setStoragedConfig } from "../../redux/configureSlice";
 
-
+import { Currency } from "../../Types/Currencies";
+import { Link } from "expo-router";
+import { getDepoistStorage, getProfit } from "../../redux/walletSlice";
 
 export default function Menu() {
     const isOpen = useSelector((state: RootState) => state.appSlice.isMenuOpen);
-    const dispatch = useDispatch();
+    const total = useSelector((state: RootState)=>state.walletSlice.total.count);
+    const profit = useSelector((state: RootState)=>state.walletSlice.profit);
+    const defaultCurrency = useSelector((state:RootState)=>state.appSlice.defaultCurrency);
 
+    const dispatch = useDispatch<AppDispatch>();
 
     const flowAnim = useRef(new Animated.Value(-1000)).current;
 
@@ -31,34 +36,39 @@ export default function Menu() {
             useNativeDriver: true,
           }).start();
     }
+
+    const data = useSelector((state:RootState)=>state.appSlice.data.menu);
     return (
         <Animated.View style={
             [styles.menuContainer, {transform: [{ translateX: flowAnim }]}]
             }>
             <View >
-                <View><Text style={styles.title}>Финансист</Text></View>
+                <View><Text style={styles.title}>{data.title}</Text></View>
                 <View style={styles.resultBlock}>
                     <View>
-                        <Text style={styles.resultLineText}>Средства: <Text>[Общие средства]₽</Text></Text>
+                        <Text style={styles.resultLineText}>
+                            {data.money}
+                            <Text>{total.toFixed(2)} {Currency[defaultCurrency as keyof typeof Currency]}</Text>
+                        </Text>
                     </View>
                     <View style={styles.resultLine}>
                         <Text style={styles.resultLineText}>
-                            Прибыль: <Text style={styles.resultLineSpecText}>[Прибыль]₽</Text>
+                            {data.profit}
+                            <Text style={
+                                (profit.count > 0) ? styles.resultLineSpecTextGreen :
+                                    styles.resultLineSpecTextRed
+                            }>
+                                {profit.count.toFixed(2)} {Currency[defaultCurrency as keyof typeof Currency]}
+                            </Text>
                         </Text>
                     </View>
                 </View>
                 <View style={styles.navbar}>
                     <FlatList
-                        data={[
-                            {key: '📋 Главная', to: '/'},
-                            {key: '💰 Счета'},
-                            {key: '💼 Ценные бумаги'},
-                            {key: '💸 Автоплатежи'},
-                            {key: '📊 Отчёты (в разработке)'},
-                            {key: '🔨 Настройки'},
-                            {key: '📱 О нас'},
-                        ]}
-                        renderItem={({item}) => <Text style={styles.navbarElem}>{item.key}</Text>}
+                        data={data.navs}
+                        renderItem={({item}) => {
+                            return <Link onPress={()=>dispatch(openMenu())} style={styles.navbarElem} href={item.link}>{item.text}</Link>
+                        }}
                     />
                 </View>
             </View>
@@ -103,8 +113,11 @@ const styles = StyleSheet.create({
         color: colors.white,
         fontSize: 18
     },
-    resultLineSpecText: {
+    resultLineSpecTextGreen: {
         color: colors.green
+    },
+    resultLineSpecTextRed: {
+        color: colors.red
     },
     navbar: {
     },
