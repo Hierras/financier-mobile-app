@@ -62,6 +62,15 @@ export const lang = {
             selectDeposit: {
                 label: 'Счет',
             }
+        },
+        modal: {
+            depositList: {
+                title: 'Выберите счёт',
+            },
+            warning: {
+                title: 'Вы действительно хотите очистить все данные?',
+                button: 'Да'
+            }
         }
     },
     eng: {
@@ -127,6 +136,15 @@ export const lang = {
         main: {
             selectDeposit: {
                 label: 'Deposit',
+            }
+        },
+        modal: {
+            depositList: {
+                title: 'Select deposit',
+            },
+            warning: {
+                title: 'Do you really want to clear all the data?',
+                button: 'Yes'
             }
         }
     }

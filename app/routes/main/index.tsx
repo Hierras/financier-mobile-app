@@ -4,6 +4,7 @@ import { colors } from "../../colors";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import SelectDeposit from "../../componetns/FormComponents/SelectDeposit";
+import Button from "../../componetns/Button";
 
 export default function Main() {
     const curDeposit = useSelector((state:RootState)=>state.walletSlice.currentDeposit);

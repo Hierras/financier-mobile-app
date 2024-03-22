@@ -10,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "./routes/header";
 import { Slot } from "expo-router";
 import { colors } from './colors';
+import { Modal } from './componetns/Modal';
 SplashScreen.preventAutoHideAsync();
 
 export default function AppLayout() {
@@ -35,6 +36,7 @@ export default function AppLayout() {
         <Provider store={store}>
           <View onLayout={onLayoutRootView} style={styles.container}>
             <WelcomeLayout/>
+            <Modal/>
             <Menu/>
             <SafeAreaView>
               <Header/>

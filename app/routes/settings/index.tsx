@@ -6,8 +6,9 @@ import { Currency } from "../../Types/Currencies";
 import { colors } from "../../colors";
 import { ddlStyles } from "../../func";
 import DropDownPicker from "react-native-dropdown-picker";
-import { setCurrency, setLang } from "../../redux/configureSlice";
+import { setCurrency, setLang, setModal } from "../../redux/configureSlice";
 import { clearData, getTotal } from "../../redux/walletSlice";
+import Button from "../../componetns/Button";
 
 export default function Settings() {
     // Выбор валют
@@ -102,9 +103,11 @@ export default function Settings() {
                 </View>
             </View>
             <View style={style.clearContainer}>
-                <Pressable style={style.buttonContainer} onPress={()=>dispatch(clearData())}>
-                    <Text style={style.buttonText}>{data.setting.button}</Text>
-                </Pressable>
+                <Button 
+                    text={data.setting.button}
+                    style={{buttonContainer: style.buttonContainer, buttonText: style.buttonText}}
+                    action={()=>dispatch(setModal('w'))}
+                />
             </View>
         </View>
     )
@@ -151,7 +154,11 @@ const style = StyleSheet.create({
         paddingBottom: 5,
         paddingTop: 5,
         borderRadius: 5,
-        
+        shadowColor: colors.black,
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        shadowOffset: {width: 0, height: 4},
+        elevation: 4, // Для Android
     },
     buttonText: {
         fontSize: 20,

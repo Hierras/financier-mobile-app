@@ -25,7 +25,7 @@ export default function WelcomeLayout() {
     return (
         <>
         {
-            (lang !== null && currency !== null) ? <View></View>
+            (lang !== null && currency !== null) ? <></>
             : 
             <View style={style.wrapper}>
                 {content}     

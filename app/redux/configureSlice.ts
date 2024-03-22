@@ -4,6 +4,7 @@ import storage from "../Storage";
 
 export interface initialStateIntf {
     isMenuOpen: boolean,
+    modal: string | null,
     defaultCurrency: string | null,
     language: string | null,
     data: any
@@ -11,7 +12,6 @@ export interface initialStateIntf {
 
 let language = null;
 let currency = null;
-
 
 export const setStoragedConfig = createAsyncThunk(
     'app/asyncStorageConfig', 
@@ -45,6 +45,7 @@ export const setStoragedConfig = createAsyncThunk(
 
 const initialState: initialStateIntf = {
     isMenuOpen: false,
+    modal: null,
     defaultCurrency: currency,
     language,
     data: lang.eng
@@ -63,6 +64,7 @@ export const appSlice = createSlice({
     },
     reducers: {
         openMenu: (state) => {state.isMenuOpen = !state.isMenuOpen},
+        setModal: (state, action) => {state.modal = action.payload},
         setLang: (state, actions) => {
             state.language = actions.payload;
             state.data = (state.language === 'ru') ? lang.ru : lang.eng;
@@ -83,5 +85,5 @@ export const appSlice = createSlice({
 });
 
 
-export const { openMenu, setLang, setCurrency } = appSlice.actions;
+export const { openMenu, setLang, setCurrency, setModal } = appSlice.actions;
 export default appSlice.reducer;
