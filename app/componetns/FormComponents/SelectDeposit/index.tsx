@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
@@ -9,6 +8,7 @@ import { setModal } from "../../../redux/configureSlice";
 
 export default function SelectDeposit() {
     const curDeposit = useSelector((state:RootState)=>state.walletSlice.currentDeposit);
+
     const data = useSelector((state:RootState)=>state.appSlice.data.main);
     const dispatch = useDispatch();
     return (
@@ -39,7 +39,6 @@ const ddlStyles = StyleSheet.create({
         shadowRadius: 4,
         shadowOffset: {width: 0, height: 4},
         elevation: 4, // Для Android
-        marginTop: 20,
         alignSelf: 'center',
         zIndex: 99,
 

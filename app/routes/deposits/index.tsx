@@ -24,6 +24,9 @@ export default function DepositsList() {
             alignContent: 'center',
             alignSelf: 'center'
         };
+        function depositOnClick(e:Event) {
+            console.log(e.target);
+        }
         return <Link 
                     key={el.id}
                     style={styles.wrapper}
@@ -40,10 +43,10 @@ export default function DepositsList() {
                                     <Text style={styles.labelText}>{`${data.size} `}</Text>
                                     <Text style={styles.countText}>{el.total.toFixed(2) + ' ' + Currency[el.currency as keyof typeof Currency]}</Text>
                                     {
-                                        (el.profit !== 0) ? 
+                                        (el.profit !== 0 && el.profit !== undefined) ? 
                                             <Text style={[styles.profit, (el.profit > 0) ? {color: 'green'} : {color: 'red'}]}>
                                                 {(el.profit > 0) ? '+' : ''}
-                                                {el.profit.toFixed(2) + ' ' + Currency[el.currency as keyof typeof Currency]}
+                                                {el.profit.toFixed(2)}
                                             </Text>
                                         : null
                                     } 

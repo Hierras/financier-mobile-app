@@ -7,7 +7,8 @@ export interface initialStateIntf {
     modal: string | null,
     defaultCurrency: string | null,
     language: string | null,
-    data: any
+    data: any,
+    curMove: string
 };
 
 let language = null;
@@ -48,7 +49,8 @@ const initialState: initialStateIntf = {
     modal: null,
     defaultCurrency: currency,
     language,
-    data: lang.eng
+    data: lang.eng,
+    curMove: 'curDepInc'
 }
 // Слайс управления приложением и настроек
 export const appSlice = createSlice({
@@ -80,10 +82,14 @@ export const appSlice = createSlice({
                 key: 'currencyState',
                 data: state.defaultCurrency
             });
+        },
+        changeCurMove: (state) => {
+            if (state.curMove === 'curDepInc') state.curMove = 'curDepDec';
+            else state.curMove = 'curDepInc';
         }
     }
 });
 
 
-export const { openMenu, setLang, setCurrency, setModal } = appSlice.actions;
+export const { openMenu, setLang, setCurrency, setModal, changeCurMove } = appSlice.actions;
 export default appSlice.reducer;

@@ -35,6 +35,17 @@ export const ddlStyles = StyleSheet.create({
         borderColor: colors.main
     }
 });
+
+
+export function getDateString(date:Date) {
+    let m, d, y;
+    y = date.getFullYear();
+    d = date.getDate();
+    m = date.getMonth()+1;
+    if (d < 10) d = '0' + d;
+    if (m < 10) m = '0' + m;
+    return `${d}.${m}.${y}`;
+}
 // async function totalCalcule(sum: number, currency: string) {
     
     

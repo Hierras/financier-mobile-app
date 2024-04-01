@@ -14,7 +14,6 @@ export default function SumForm(props: {type:string}) {
     const defaultCurrency = useSelector((state:RootState)=>state.appSlice.defaultCurrency);
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(defaultCurrency);
-
     
     const itemsList = Object.keys(Currency).map((key, i)=>{
         return {
@@ -41,7 +40,7 @@ export default function SumForm(props: {type:string}) {
             setParamFunc = setCurrentDeposit;
         }
     }
-    const [numString, setNumString] = useState(String(currentActionObj.total.toFixed(2)));
+    const [numString, setNumString] = useState('0.00');
     function numericHandler(masked:string) {
         let newNumb = parseFloat(masked);
         if (isNaN(newNumb)) {

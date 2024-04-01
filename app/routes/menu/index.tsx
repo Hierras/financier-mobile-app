@@ -20,24 +20,23 @@ export default function Menu() {
     const dispatch = useDispatch<AppDispatch>();
 
     const flowAnim = useRef(new Animated.Value(-1000)).current;
-
-
-    if (isOpen) {
-        Animated.timing(flowAnim, {
-            toValue: 0,
-            duration: 1500,
-            useNativeDriver: true,
-        }).start();
-    }
-    else{
-        Animated.timing(flowAnim, {
-            toValue: -1000,
-            duration: 1500,
-            useNativeDriver: true,
-          }).start();
-    }
-
     const data = useSelector((state:RootState)=>state.appSlice.data.menu);
+    useEffect(()=>{
+        if (isOpen) {
+            Animated.timing(flowAnim, {
+                toValue: 0,
+                duration: 1200,
+                useNativeDriver: true,
+            }).start();
+        }
+        else{
+            Animated.timing(flowAnim, {
+                toValue: -1000,
+                duration: 1200,
+                useNativeDriver: true,
+              }).start();
+        }
+    },[isOpen])
     return (
         <Animated.View style={
             [styles.menuContainer, {transform: [{ translateX: flowAnim }]}]

@@ -61,6 +61,16 @@ export const lang = {
         main: {
             selectDeposit: {
                 label: 'Счет',
+            },
+            buttons: {
+                yes: {
+                    left: 'Добавить',
+                    right: 'К расходам'
+                },
+                no: {
+                    left: 'Убавить',
+                    right: 'К доходам'
+                }
             }
         },
         modal: {
@@ -136,6 +146,16 @@ export const lang = {
         main: {
             selectDeposit: {
                 label: 'Deposit',
+            },
+            buttons: {
+                yes: {
+                    left: 'Increase',
+                    right: 'To decrease'
+                },
+                no: {
+                    left: 'Decrease',
+                    right: 'To increase'
+                }
             }
         },
         modal: {

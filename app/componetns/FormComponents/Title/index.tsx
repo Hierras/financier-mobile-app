@@ -17,7 +17,6 @@ export default function TitleForm(props: {type:string}) {
     switch (props.type) {
         case 'operation': {
             currentActionObj = useSelector((state:RootState)=>state.walletSlice.currentOperation);
-            
             setParamFunc = setCurrentOperation;
             break;
         }

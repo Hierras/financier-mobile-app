@@ -11,7 +11,7 @@ import { PageIntf, Pages } from "../../Types/pages";
 import { router, useGlobalSearchParams, usePathname } from "expo-router";
 import { AppDispatch, RootState } from "../../redux/store";
 import { Currency } from "../../Types/Currencies";
-import { addDeposit, decreaseDeposit, defaultDeposit, defaultOperation, getDepoistStorage, getProfit, getTotal, increaseDeposit, setCurrentDeposit, setCurrentOperation } from "../../redux/walletSlice";
+import { addDeposit, decreaseDeposit, defaultDeposit, defaultOperation, getDepoistStorage, getProfit, getTotal, increaseDeposit, setCurrentDeposit, setCurrentOperation, setDefaultDeposit, setDefaultOperation } from "../../redux/walletSlice";
 import { useEffect } from "react";
 
 export default function Header() {
@@ -55,7 +55,7 @@ export default function Header() {
     function onBack() {
       switch (data.url) {
         case "/routes/main/add": {
-          dispatch(setCurrentOperation({key:'full', value:''}));
+          dispatch(setDefaultOperation());
           break;
         }
         case "/routes/deposits/add": {
@@ -69,18 +69,6 @@ export default function Header() {
     }
     // Начало процесса добавления
     function onAdd() {
-      switch (data.url) {
-        case "/routes/main/": {
-          dispatch(setCurrentOperation({key:'all', value:defaultOperation}));
-          break;
-        }
-        case "/routes/deposits/": {
-          dispatch(setCurrentDeposit({key:'all', value:defaultDeposit}));
-          break;
-        }
-        default: {
-        }       
-      }
       router.navigate(href+"/add");
     }
 
@@ -170,18 +158,18 @@ export default function Header() {
     }, [dispatch, deposits, defaultCurrency]);
     return (
       <SafeAreaView style={header}>
-        <View style={titleSide}>
+        <Pressable  onPress={()=>dispatch(openMenu())} style={titleSide}>
           <View>
-            <Pressable onPress={()=>dispatch(openMenu())}>
+            <View>
               <FontAwesomeIcon {...navIconProps} />
-            </Pressable>
+            </View>
           </View>
           <View style={titleView}>
             <Text style={{color: colors.textgrey, fontFamily: 'Cuprum', fontSize: 16}}>
               {title} {param}
             </Text>
           </View>
-        </View>
+        </Pressable>
         <View style={buttonsList}>
           {buttons}
         </View>

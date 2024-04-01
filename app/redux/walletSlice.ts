@@ -22,7 +22,7 @@ export const defaultDeposit: Deposit = {
     title: "",
     icon: Icons[0],
     color: colors.main,
-    currency: Currency.RUB,
+    currency: 'RUB',
     total: 0.00,
     increases: [],
     decreases: [],
@@ -160,11 +160,9 @@ export const walletSlice = createSlice({
                 state.profit.loading = 'pending';
             })
             .addCase(getProfit.fulfilled, (state, action)=>{
-                const {rates, defaultCurrency} = action.payload;
-                
+                const {rates, defaultCurrency} = action.payload;         
                 let profit = 0;
                 const deposits = state.deposits;
-    
                 for (let key in deposits) {
                     let c1: number | null = getCurrencyValue(rates, defaultCurrency);
                     let c2: number | null = getCurrencyValue(rates, deposits[key].currency);
@@ -212,8 +210,11 @@ export const walletSlice = createSlice({
             if (state.currentDeposit.id === action.payload.id) {
                 if (state.deposits.length === 0)
                     state.currentDeposit = {...defaultDeposit};
-                else
+                else {
                     state.currentDeposit = {...state.deposits[state.deposits.length-1]};
+                    console.log(state.currentDeposit);
+                }
+                    
             }
             storage.save({
                 key: 'depositsState',
@@ -238,11 +239,14 @@ export const walletSlice = createSlice({
                 const [total, profit] = calculateTotalProfit(state.deposits[id], false);
                 state.deposits[id].total = total;
                 state.deposits[id].profit = profit;
-            }
-            storage.save({
-                key: 'depositsState',
-                data: state.deposits
-            });
+
+                state.currentDeposit = {...state.deposits[id]};
+                storage.save({
+                    key: 'depositsState',
+                    data: state.deposits
+                });
+                
+            } 
         },
         decreaseDeposit: (state) => {
             const id = 
@@ -263,10 +267,13 @@ export const walletSlice = createSlice({
                 const [total, profit] = calculateTotalProfit(state.deposits[id], true);
                 state.deposits[id].total = total;
                 state.deposits[id].profit = profit;
+
+                state.currentDeposit = {...state.deposits[id]};
                 storage.save({
                     key: 'depositsState',
                     data: state.deposits
                 });
+               
             }
         },
 
@@ -275,14 +282,14 @@ export const walletSlice = createSlice({
 
             if (key === 'full') {
                 if (state.deposits.length > 0)
-                    state.currentDeposit = state.deposits[
+                    state.currentDeposit = {...state.deposits[
                         state.deposits.length-1
-                    ];
+                    ]};
                 else state.currentDeposit = {...defaultDeposit};
             }
             else if (key === 'all') {
                 state.lastDeposit = {...state.currentDeposit};
-                state.currentDeposit = {...value};
+                state.currentDeposit  = {...value};
                 
             }
             else state.currentDeposit[key] = value;         
@@ -291,27 +298,28 @@ export const walletSlice = createSlice({
             const {key, value} = action.payload;
 
             if (key === 'full') {
+                state.currentOperation = {...defaultOperation};
                 if (state.currentOperation.type){
 
                     if (state.currentDeposit.decreases.length > 0)
                         state.currentOperation =
-                            state.currentDeposit.decreases[
+                            {...state.currentDeposit.decreases[
                                 state.currentDeposit.decreases.length-1
-                            ]
+                            ]}
                     else state.currentOperation = {...defaultOperation};
                 }
                 else{
                     if (state.currentDeposit.increases.length > 0)
                         state.currentOperation =
-                            state.currentDeposit.increases[
+                            {...state.currentDeposit.increases[
                                 state.currentDeposit.increases.length-1
-                            ]
+                            ]}
                     else state.currentOperation = {...defaultOperation};
                 }
             }
             else if (key === 'all') {
                 state.lastOperation = {...state.currentOperation};
-                state.currentOperation = {...value};
+                state.currentOperation = value;
             }
             else state.currentOperation[key] = value;     
         },

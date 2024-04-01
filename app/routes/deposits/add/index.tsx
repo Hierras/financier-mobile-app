@@ -1,7 +1,7 @@
 import { useNavigation } from "expo-router";
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
-import { setCurrentDeposit } from "../../../redux/walletSlice";
+import { setCurrentDeposit, setDefaultDeposit } from "../../../redux/walletSlice";
 import { useEffect } from "react";
 import { ColorsForm, IconsForm, SumForm, TitleForm } from "../../../componetns/FormComponents";
 
@@ -15,6 +15,9 @@ export default function DepositAdd() {
       
         return unsubscribe;
     },[navigation])
+    useEffect(()=>{
+        dispatch(setDefaultDeposit());
+    }, [])
     return (
         <View style={{alignItems:'center'}}>
             <TitleForm type="deposit"/>
